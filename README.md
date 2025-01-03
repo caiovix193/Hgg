@@ -17,7 +17,7 @@ end)
 -- Detecta quando a bola toca na hitbox
 hitbox.Touched:Connect(function(hit)
     if hit.Name == "Bola" then
-        -- Código para pegar a bola
+        -- Move a bola para o jogador
         hit.CFrame = character.HumanoidRootPart.CFrame
     end
 end)
