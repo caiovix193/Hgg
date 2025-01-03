@@ -1,23 +1,37 @@
--- Aumenta a hitbox do jogador e pega a bola quando ela toca na hitbox
-local player = game.Players.LocalPlayer
-local character = player.Character or player.CharacterAdded:Wait()
-local hitbox = Instance.new("Part")
+-- Script de Otimização de Desempenho para Roblox
 
-hitbox.Size = Vector3.new(100, 100, 100) -- Tamanho da hitbox
-hitbox.Transparency = 0.5
-hitbox.Anchored = true
-hitbox.CanCollide = false
-hitbox.Parent = character
-
--- Atualiza a posição da hitbox para seguir o jogador
-game:GetService("RunService").RenderStepped:Connect(function()
-    hitbox.Position = character.HumanoidRootPart.Position
-end)
-
--- Detecta quando a bola toca na hitbox
-hitbox.Touched:Connect(function(hit)
-    if hit.Name == "Bola" then
-        -- Move a bola para o jogador
-        hit.CFrame = character.HumanoidRootPart.CFrame
+-- Função para desativar serviços desnecessários
+local function disableUnnecessaryServices()
+    local servicesToDisable = {
+        "Chat",
+        "Players",
+        "Lighting",
+        "ReplicatedFirst",
+        "ReplicatedStorage",
+        "StarterGui",
+        "StarterPack",
+        "StarterPlayer",
+        "Teams",
+        "SoundService"
+    }
+    
+    for _, serviceName in ipairs(servicesToDisable) do
+        local service = game:GetService(serviceName)
+        if service then
+            service:Destroy()
+        end
     end
-end)
+end
+
+-- Função para ajustar configurações gráficas
+local function optimizeGraphics()
+    local settings = UserSettings():GetService("UserGameSettings")
+    settings.SavedQualityLevel = Enum.SavedQualitySetting.QualityLevel1
+    settings.MasterVolume = 0
+end
+
+-- Executar otimizações
+disableUnnecessaryServices()
+optimizeGraphics()
+
+print("Otimização de desempenho aplicada com sucesso!")
